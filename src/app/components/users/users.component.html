@@ -1,1 +1,26 @@
-<p>users works!</p>
+<h2>Users</h2>
+<button [disabled]="!enableAdd" class="btn btn-block mb-3">Add New User</button>
+<ul class="list-unstyled" *ngIf="loaded && users?.length > 0"> <!-- <ul *ngIf="loaded && users.length > 0; else noUsers"></ul>-->
+    <li class="card card-body mb-2" *ngFor="let user of users" [class.bg-light]="user.isActive">
+        <h3>{{user.firstName}} {{user.lastName}}</h3>  <!--[textContent]="user.firstName"-->
+        <ul class="list-group" *ngIf="showExtended && user.age && user.address">
+            <li class="list-group-item">Age: {{user.age}} </li>
+            <li class="list-group-item">Address: {{user.address.street}} {{user.address.city}}, {{user.address.state}} </li>
+
+            <li class="list-group-item">Joined: {{user.registered | date}}</li> <!--date or date:"mm/dd/yyyy" or date:"fullDate" or date:"longDate" or date:"shortDate" etc...-->
+
+        </ul>
+    </li>
+</ul>
+
+<h4 *ngIf="users?.length == 0">No Users Found</h4>
+
+<h4 *ngIf="!loaded">Loading Users...</h4>
+
+<!--
+                <img *ngIf="user.image" class="img-fluid" src="{{user.image}}" alt="">
+                <img *ngIf="user.image" class="img-fluid" bind-src="user.image" alt="">
+                <img *ngIf="user.image" class="img-fluid" [src]="user.image" alt="">
+                <li class="list-group-item">Balance: {{user.balance | currency:"GBP":"symbol"}} until {{1 | percent}}</li>
+                <li class="list-group-item" ngNonBindable><pre>{{5 | number:"2.4"}}</pre></li> ---number:"2.4" decides how many numbers in front and how many as decimals, in this case 2 in front and 4 as decimals--> <!--ngNonBindable show the code as a result!!!-->
+-->
