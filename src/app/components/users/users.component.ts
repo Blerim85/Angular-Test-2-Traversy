@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { User } from '../../models/User';
 
@@ -9,10 +10,17 @@ import { User } from '../../models/User';
 })
 export class UsersComponent implements OnInit {
 
+  user: User = {
+    firstName: '',
+    lastName: '',
+    email: ''
+  }
   users: User[];
   showExtended: boolean = true;
   loaded: boolean = false;
-  enableAdd: boolean = true;
+  enableAdd: boolean = false;
+  showUserForm: boolean = false;
+  @ViewChild('userForm') form: any;
 
   constructor() { }
 
@@ -22,76 +30,43 @@ export class UsersComponent implements OnInit {
       {
         firstName: 'John',
         lastName: 'Doe',
-        age: 30,
-        address: {
-            street: '50 Main st',
-            city: 'Boston',
-            state: 'MA'
-        },
-        // image: 'https://images.freeimages.com/images/large-previews/a0c/dancer-jumping-doing-a-tilt-1632059.jpg',
+        email: 'john@gmail.com',
         isActive: true,
-        // balance: 100,
-        registered: new Date('01/02/2020 08:30.00')
+        registered: new Date('01/02/2020 08:30.00'),
+        hide: true
       },
       {
         firstName: 'Kevin',
         lastName: 'Johnson',
-        age: 34,
-        address: {
-            street: '20 School st',
-            city: 'Lynn',
-            state: 'MA'
-        },
+        email: 'kevin@gmail.com',
         isActive: false,
-        registered: new Date('11/12/2020 09:30.00')
+        registered: new Date('11/12/2020 09:30.00'),
+        hide: true
       },
       {
         firstName: 'Karen',
         lastName: 'Williams',
-        age: 26,
-        address: {
-            street: '55 Mill st',
-            city: 'Miami',
-            state: 'FL'
-        },
+        email: 'karen@gmail.com',
         isActive: true,
-        registered: new Date('04/08/2020 12:00.00')
+        registered: new Date('04/08/2020 12:00.00'),
+        hide: true
       }
     ];
 
     this.loaded = true;
-
-    // this.addUser({
-    //   firstName: 'David',
-    //     lastName: 'Jackson'
-    // });
-    // this.setCurrentClasses();
-    // this.setCurrentStyles();
   }
 
-  addUser(user: User) {
-    this.users.push(user);
+  onSubmit({value, valid}: {value: User, valid: boolean}) {
+    if(!valid) {
+      console.log('Form is not valid');
+    } else {
+      value.isActive = true;
+      value.registered = new Date();
+      value.hide = true;
+      
+      this.users.unshift(value);
+
+      this.form.reset();
+    }
   }
-
-  // setCurrentClasses() {
-  //   this.currentClasses = {
-  //     'btn-success': this.enableAdd,
-  //     'big-text': this.showExtended
-  //   }
-  // }
-
-  // setCurrentStyles() {
-  //   this.currentStyles = {
-  //     'padding-top': this.showExtended ? '0' : '40px',
-  //     'font-size': this.showExtended ? '' : '40px'
-  //   }
-  // }
-
 }
-/*
-vorne einen punkt weniger "./node_"!!!
-"../node_modules/bootstrap/dist/css/bootstrap.css"
-              "../node_modules/jquery/dist/jquery.js",
-              "../node_modules/popper.js/dist/umd/popper.js",
-              "../node_modules/bootstrap/dist/js/bootstrap.js"
-*/
